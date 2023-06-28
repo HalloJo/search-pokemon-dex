@@ -1,0 +1,142 @@
+@use "../styles/mixins/_mixins.scss" as mixins;
+
+#root {
+  max-width: 1280px;
+  width: 100%;
+  height: 600px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.pokedex {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+
+  &__header {
+    margin: 0 0 2rem 0;
+  }
+
+  &__error {
+    background-color: darkred;
+    color: rgb(240, 129, 147);
+    padding: 7.5px 10px;
+    border-radius: 7px;
+    box-sizing: border-box;
+    width: fit-content;
+    margin: 1rem 0;
+  }
+
+  &__card {
+    background-color: rgb(0, 0, 0);
+    aspect-ratio: 1/1;
+    border-radius: 20px;
+    min-width: 250px;
+    position: relative;
+    padding: 1rem;
+
+    &_number {
+      position: absolute;
+      margin: 0;
+      right: 1rem;
+      top: 1rem;
+      font-weight: 700;
+      color: rgb(26, 26, 26);
+      font-size: 3rem;
+      line-height: 0.8;
+      z-index: 0;
+    }
+
+    &_sprite {
+      width: 9rem;
+      position: relative;
+      z-index: 1;
+      margin-bottom: -20px;
+    }
+
+    &_name {
+      text-transform: capitalize;
+      margin: 0 0 0.5rem 0;
+      font-size: 1.5rem;
+    }
+
+    &_types {
+      list-style-type: none;
+      padding: 0;
+      margin: 0 0 1.5rem 0;
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      justify-content: center;
+
+      li {
+        padding: 0.1rem 0.3rem;
+        border-radius: 3px;
+        text-transform: uppercase;
+        font-weight: 700;
+        font-size: 0.6rem;
+      }
+    }
+
+    &_info {
+      display: flex;
+      background-color: rgb(20, 20, 20);
+      padding: 10px;
+      border-radius: 10px;
+      gap: 1rem;
+    }
+
+    &_region,
+    &_legendary,
+    &_mythical {
+      @include mixins.label();
+    }
+    &_legendary {
+      background: linear-gradient(
+        90deg,
+        rgb(139, 107, 1) 0%,
+        rgb(255, 200, 20) 100%
+      );
+      top: 2.2rem;
+    }
+    &_mythical {
+      background: linear-gradient(
+        90deg,
+        rgb(255, 7, 181) 0%,
+        rgb(160, 3, 71) 100%
+      );
+      top: 2.2rem;
+    }
+
+    &_abilities {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+
+      p {
+        margin: 0 0 0.2rem 0;
+        font-size: 0.7rem;
+      }
+    }
+
+    &_abilitiesList {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+
+      gap: 0.5rem;
+
+      li {
+        padding: 0.1rem 0.3rem;
+        border-radius: 3px;
+        text-transform: uppercase;
+        font-size: 0.5rem;
+        background-color: rgb(37, 37, 37);
+      }
+    }
+  }
+}
