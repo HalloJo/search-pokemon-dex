@@ -2,38 +2,7 @@ import { ReactNode, useEffect, useState } from "react";
 import "./styles/App.scss";
 import { getPokemonTypeColor } from "./utils/getTypeColor";
 import { getPokemonRegion } from "./utils/getRegion";
-
-export type PokemonType = {
-  slot: number;
-  type: {
-    name: string;
-  };
-};
-
-export type PokemonSpecies = {
-  generation: {
-    name: string;
-  };
-  is_mythical?: boolean;
-  is_legendary?: boolean;
-  flavor_text_entries: [];
-};
-
-export type PokemonAbility = {
-  ability: {
-    name?: string;
-  };
-};
-
-export type Pokemon = {
-  id?: number;
-  name?: string;
-  sprites?: {
-    front_default: string;
-  };
-  abilities?: PokemonAbility[];
-  types?: PokemonType[];
-};
+import { Pokemon, PokemonSpecies } from "./types";
 
 const App = () => {
   const [pokemonName, setPokemonName] = useState<string>("");
@@ -95,24 +64,29 @@ const App = () => {
     <div className="pokedex">
       <div className="pokedex__header">
         <h2>✨ Looking for a Pokemon?</h2>
-        <p>Start by typing the name.</p>
+        <p>
+          Find your Pokemon and check its type, region and more! Pay attention
+          to the spelling.
+        </p>
         <div className="pokedex__searchWrapper">
           <input
             type="text"
             value={pokemonName}
             onChange={(event) => setPokemonName(event.target.value)}
+            placeholder="Type the name here.."
           />
           <button type="button" onClick={searchPokemon}>
             Search
           </button>
+          {isLoading && <p>Loading..</p>}
+          {error && (
+            <div className="pokedex__error">
+              ❌ An error occurred.. Please check the spelling or try again!
+            </div>
+          )}
         </div>
       </div>
-      {isLoading && <p>Loading..</p>}
-      {error && (
-        <div className="pokedex__error">
-          ❌ An error occurred.. Please check the spelling or try again!
-        </div>
-      )}
+
       {pokemonData && (
         <div className="pokedex__card">
           <p className="pokedex__card_number">#{pokemonData.id}</p>
@@ -124,15 +98,25 @@ const App = () => {
           ) : pokemonSpeciesData?.is_mythical ? (
             <p className="pokedex__card_mythical">Mythical</p>
           ) : null}
-
-          <div>
+          <div className="pokedex__card_spriteWrapper">
             <img
               className="pokedex__card_sprite"
-              src={pokemonData.sprites?.front_default}
+              src={
+                pokemonData.sprites?.versions?.["generation-v"]?.["black-white"]
+                  ?.animated.front_default
+              }
+              alt={pokemonData.name}
             />
           </div>
           <h3 className="pokedex__card_name">{pokemonData.name}</h3>
-
+          <div className="pokedex__card_genera">
+            <p className="pokedex__card_generaText">
+              {pokemonSpeciesData?.genera[7].genus}
+            </p>
+          </div>
+          <p className="pokedex__card_entry">
+            {pokemonSpeciesData?.flavor_text_entries[1].flavor_text}
+          </p>
           <ul className="pokedex__card_types">
             {pokemonData.types?.map((pokemonType) => (
               <li
@@ -144,8 +128,21 @@ const App = () => {
             ))}
           </ul>
           <div className="pokedex__card_info">
+            <div className="pokedex__card_stats">
+              <p className="pokedex__card_statsTitle">Stats</p>
+              <ul className="pokedex__card_statsList">
+                {pokemonData.stats?.map((pokemonStat) => (
+                  <li key={pokemonStat.stat.name}>
+                    <p className="pokedex__card_statsName">
+                      {pokemonStat.stat.name}:
+                    </p>
+                    <p>{pokemonStat.base_stat}</p>
+                  </li>
+                ))}
+              </ul>
+            </div>
             <div className="pokedex__card_abilities">
-              <p>Abilities</p>
+              <p className="pokedex__card_abilitiesTitle">Abilities</p>
               <ul className="pokedex__card_abilitiesList">
                 {pokemonData.abilities?.map((pokemonAbility) => (
                   <li key={pokemonAbility.ability.name}>
@@ -153,6 +150,12 @@ const App = () => {
                   </li>
                 ))}
               </ul>
+            </div>
+            <div className="pokedex__card_capture">
+              <p className="pokedex__card_captureTitle">Capture rate</p>
+              <p className="pokedex__card_captureRate">
+                {pokemonSpeciesData?.capture_rate}
+              </p>
             </div>
           </div>
         </div>
