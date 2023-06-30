@@ -1,4 +1,4 @@
-type getPokemonRegionProps = (value: string) => void;
+type getPokemonRegionProps = (value?: string) => string;
 
 export const getPokemonRegion: getPokemonRegionProps = (region) => {
   return region === "generation-i"

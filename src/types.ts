@@ -64,7 +64,7 @@ export type Pokemon = {
       };
     };
   };
-  stats: PokemonStat[];
+  stats?: PokemonStat[];
   abilities?: PokemonAbility[];
   types?: PokemonType[];
 };
