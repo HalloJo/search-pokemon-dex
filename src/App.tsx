@@ -1,38 +1,68 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import "./styles/App.scss";
 import { getPokemonTypeColor } from "./utils/getTypeColor";
 import { getPokemonRegion } from "./utils/getRegion";
 import { useFetchPokemon } from "./hooks/useFetchPokemon";
 import { useFetchPokemonSpecies } from "./hooks/useFetchPokemonSpecies";
+import { useFetchAllPokemon } from "./hooks/useFetchAllPokemon";
 
 const App = () => {
-  const [pokemonName, setPokemonName] = useState<string>("");
+  // const [pokemonName, setPokemonName] = useState<string>("");
+  const [selectedPokemon, setSelectedPokemon] = useState<string>("");
   const { isLoading, pokemonData, error, getPokemon } = useFetchPokemon();
   const { pokemonSpeciesData, getPokemonSpecies } = useFetchPokemonSpecies();
+  const { allPokemon, getAllPokemon } = useFetchAllPokemon();
 
-  const searchPokemon = () => {
-    getPokemon(pokemonName);
-    getPokemonSpecies(pokemonName);
+  // const searchPokemon = () => {
+  //   getPokemon(pokemonName);
+  //   getPokemonSpecies(pokemonName);
+  //   setSelectedPokemon(pokemonName);
+  // };
+
+  const searchDropdownPokemon = (event: any) => {
+    // setPokemonName(event);
+    setSelectedPokemon(event);
+    getPokemon(event);
+    getPokemonSpecies(event);
   };
+
+  useEffect(() => {
+    getAllPokemon();
+  });
 
   return (
     <div className="pokedex">
       <div className="pokedex__header">
         <h2>✨ Looking for a Pokemon?</h2>
         <p>
-          Find your Pokemon and check its type, region and more! Pay attention
-          to the spelling.
+          Find your Pokemon and check its type, region, if it's Jorik's favorite
+          and more!
         </p>
         <div className="pokedex__searchWrapper">
-          <input
+          {/* <input
             type="text"
             value={pokemonName}
-            onChange={(event) => setPokemonName(event.target.value)}
-            placeholder="Type the name here.."
-          />
-          <button type="button" onClick={searchPokemon}>
+            onChange={(event) => {
+              setPokemonName(event.target.value);
+            }}
+            placeholder="Type its name here.."
+          /> */}
+          <select
+            value={selectedPokemon}
+            onChange={(event) => {
+              searchDropdownPokemon(event.target.value);
+            }}
+          >
+            <option value="first">Select a Pokemon here..</option>
+            {allPokemon?.results?.map((pokemon) => (
+              <option key={pokemon.name} value={pokemon.name}>
+                {pokemon.name}
+              </option>
+            ))}
+          </select>
+          {/* <button type="button" onClick={searchPokemon}>
             Search
-          </button>
+          </button> */}
           {isLoading && <p>Loading..</p>}
           {error && (
             <div className="pokedex__error">
@@ -52,6 +82,8 @@ const App = () => {
             <p className="pokedex__card_legendary">Legendary</p>
           ) : pokemonSpeciesData?.is_mythical ? (
             <p className="pokedex__card_mythical">Mythical</p>
+          ) : pokemonData.name === "scizor" ? (
+            <p className="pokedex__card_favo">Jorik's favorite</p>
           ) : null}
           <div className="pokedex__card_spriteWrapper">
             <img
@@ -59,6 +91,12 @@ const App = () => {
               src={
                 pokemonData.sprites?.versions?.["generation-v"]?.["black-white"]
                   ?.animated.front_default
+                  ? pokemonData.sprites?.versions?.["generation-v"]?.[
+                      "black-white"
+                    ]?.animated.front_default
+                  : pokemonData?.sprites?.versions?.["generation-v"]?.[
+                      "black-white"
+                    ].front_default
               }
               alt={pokemonData.name}
             />

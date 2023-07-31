@@ -1,3 +1,13 @@
+export type AllPokemon = {
+  count: number;
+  next: string;
+  results: [
+    {
+      name: string;
+    }
+  ];
+};
+
 export type PokemonType = {
   slot: number;
   type: {
@@ -60,6 +70,7 @@ export type Pokemon = {
           animated: {
             front_default: string;
           };
+          front_default: string;
         };
       };
     };

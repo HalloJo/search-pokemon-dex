@@ -37,7 +37,8 @@
     display: flex;
     flex-direction: column;
 
-    input {
+    input,
+    select {
       padding: 10px;
       border-radius: 8px;
       border: none;
@@ -140,7 +141,8 @@
 
     &_region,
     &_legendary,
-    &_mythical {
+    &_mythical,
+    &_favo {
       @include mixins.label();
     }
 
@@ -158,6 +160,15 @@
         90deg,
         rgb(255, 7, 181) 0%,
         rgb(160, 3, 71) 100%
+      );
+      top: 2.2rem;
+    }
+
+    &_favo {
+      background: linear-gradient(
+        90deg,
+        rgb(60, 255, 0) 0%,
+        rgb(30, 164, 0) 100%
       );
       top: 2.2rem;
     }
