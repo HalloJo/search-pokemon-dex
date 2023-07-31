@@ -19,16 +19,19 @@ const App = () => {
   //   setSelectedPokemon(pokemonName);
   // };
 
-  const searchDropdownPokemon = (event: any) => {
-    // setPokemonName(event);
-    setSelectedPokemon(event);
-    getPokemon(event);
-    getPokemonSpecies(event);
-  };
+  const searchDropdownPokemon = useCallback(
+    (event: any) => {
+      // setPokemonName(event);
+      setSelectedPokemon(event);
+      getPokemon(event);
+      getPokemonSpecies(event);
+    },
+    [getPokemon, getPokemonSpecies]
+  );
 
   useEffect(() => {
     getAllPokemon();
-  });
+  }, []);
 
   return (
     <div className="pokedex">
