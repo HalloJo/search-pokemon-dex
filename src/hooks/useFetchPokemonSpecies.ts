@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { PokemonSpecies } from '../types';
-import { fetchPokemonSpecies } from '../api/fetchPokemonSpecies';
+import { useState } from "react";
+import { PokemonSpecies } from "../types";
+import { fetchPokemonSpecies } from "../api/fetchPokemonSpecies";
 
 export const useFetchPokemonSpecies = () => {
   const [pokemonSpeciesData, setPokemonSpeciesData] = useState<
