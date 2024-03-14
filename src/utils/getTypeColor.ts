@@ -1,4 +1,4 @@
-type getPokemonTypeProps = (value: string) => void;
+export type getPokemonTypeProps = (value: string) => void;
 
 export const getPokemonTypeColor: getPokemonTypeProps = (pokemonType) => {
   return pokemonType === "grass"
