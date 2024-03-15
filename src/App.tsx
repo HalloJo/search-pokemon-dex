@@ -43,7 +43,6 @@ const App = () => {
     <div className="pokedex">
       <div className="pokedex__header">
         <pre>{JSON.stringify(selectedPokemonName, undefined, 3)}</pre>
-        {/* <pre>{JSON.stringify(pokemonTypesData, undefined, 3)}</pre> */}
         <h2>✨ Looking for a Pokemon?</h2>
         <p>
           Find your Pokemon and check its type, region, if it's Jorik's favorite
@@ -65,9 +64,10 @@ const App = () => {
             }}
           >
             <option value="first">Select a Pokemon here..</option>
-            {allPokemon?.results?.map((pokemon) => (
+            {allPokemon?.results?.map((pokemon, index) => (
               <option key={pokemon.name} value={pokemon.name}>
-                {pokemon.name}
+                #{index + 1}.{" "}
+                {pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}
               </option>
             ))}
           </select>

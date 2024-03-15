@@ -68,6 +68,10 @@
       border-radius: 8px;
       border: none;
       margin: 0 0 0.75rem 0;
+
+      option {
+        text-transform: capitalize;
+      }
     }
   }
 
