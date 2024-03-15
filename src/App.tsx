@@ -5,28 +5,34 @@ import { getPokemonRegion } from "./utils/getRegion";
 import { useFetchPokemon } from "./hooks/useFetchPokemon";
 import { useFetchPokemonSpecies } from "./hooks/useFetchPokemonSpecies";
 import { useFetchAllPokemon } from "./hooks/useFetchAllPokemon";
-import { useFetchPokemonTypes } from "./hooks/useFetchPokemonTypes";
+// import { useFetchPokemonTypes } from "./hooks/useFetchPokemonTypes";
 import PokedexCard from "./PokedexCard";
 
 const App = () => {
-  const [selectedPokemon, setSelectedPokemon] = useState<string>("");
+  const [selectedPokemonName, setSelectedPokemonName] = useState<
+    string | undefined
+  >("");
   const { isLoading, pokemonData, error, getPokemon } = useFetchPokemon();
   const { pokemonSpeciesData, getPokemonSpecies } = useFetchPokemonSpecies();
-  const { pokemonTypesData, getPokemonTypes } = useFetchPokemonTypes();
+  // const { pokemonTypesData, getPokemonTypes } = useFetchPokemonTypes();
   const { allPokemon, getAllPokemon } = useFetchAllPokemon();
 
   const searchDropdownPokemon = useCallback(
-    (pokemon: number | string) => {
-      if (typeof pokemon === "number") {
-        getPokemonTypes(pokemon);
-      } else if (typeof pokemon === "string") {
-        getPokemon(pokemon);
-        setSelectedPokemon(pokemon);
-        getPokemonSpecies(pokemon);
-      }
-      console.log(pokemonData);
+    (pokemon: string) => {
+      getPokemon(pokemon);
+
+      getPokemonSpecies(pokemon);
+      setSelectedPokemonName(pokemon);
+
+      // console.log(pokemonData);
     },
-    [getPokemon, getPokemonSpecies, getPokemonTypes, pokemonData]
+    [
+      getPokemon,
+      getPokemonSpecies,
+      // getPokemonTypes,
+      // pokemonData?.id,
+      // selectedPokemonId,
+    ]
   );
 
   useEffect(() => {
@@ -36,7 +42,8 @@ const App = () => {
   return (
     <div className="pokedex">
       <div className="pokedex__header">
-        <pre>{JSON.stringify(pokemonTypesData, undefined, 3)}</pre>
+        <pre>{JSON.stringify(selectedPokemonName, undefined, 3)}</pre>
+        {/* <pre>{JSON.stringify(pokemonTypesData, undefined, 3)}</pre> */}
         <h2>✨ Looking for a Pokemon?</h2>
         <p>
           Find your Pokemon and check its type, region, if it's Jorik's favorite
@@ -44,7 +51,7 @@ const App = () => {
         </p>
         <div className="pokedex__searchWrapper">
           <select
-            value={selectedPokemon}
+            value={selectedPokemonName}
             onChange={(event) => {
               searchDropdownPokemon(event.target.value);
             }}
@@ -59,7 +66,12 @@ const App = () => {
           {/* <button type="button" onClick={searchPokemon}>
             Search
           </button> */}
-          {isLoading && <p>Loading..</p>}
+          {/* {isLoading && <p>Loading..</p>} */}
+          {isLoading && (
+            <div className="pokedex__loading">
+              <img src="public/favicon.svg" alt="Loading..." />
+            </div>
+          )}
           {error && (
             <div className="pokedex__error">
               ❌ An error occurred.. Please check the spelling or try again!

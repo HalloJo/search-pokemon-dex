@@ -1,6 +1,7 @@
-import { Pokemon, PokemonSpecies } from './types';
-import { getPokemonRegionProps } from './utils/getRegion';
-import { getPokemonTypeProps } from './utils/getTypeColor';
+import { Pokemon, PokemonSpecies } from "./types";
+import { getPokemonRegionProps } from "./utils/getRegion";
+import { getPokemonTypeProps } from "./utils/getTypeColor";
+import "./styles/PokedexCard.scss";
 
 type PokedexCardProps = {
   pokemonData: Pokemon;
@@ -15,45 +16,60 @@ const PokedexCard = ({
   pokemonSpeciesData,
   getPokemonTypeColor,
 }: PokedexCardProps) => {
+  const englishFlavorTextEntry = pokemonSpeciesData?.flavor_text_entries.find(
+    (entry) => entry?.language?.name === "en"
+  );
+
+  const englishFlavorText =
+    englishFlavorTextEntry?.flavor_text || "❌ No flavor text available..";
+
   return (
     <div className="pokedex__card">
       <p className="pokedex__card_number">#{pokemonData.id}</p>
-      <p className="pokedex__card_region">
-        {getPokemonRegion(pokemonSpeciesData?.generation.name)}
+      <p
+        className={`pokedex__card_region ${
+          pokemonSpeciesData ? "" : "pokedex__card_region_error"
+        }`}
+      >
+        {pokemonSpeciesData && pokemonSpeciesData?.generation.name
+          ? getPokemonRegion(pokemonSpeciesData?.generation.name)
+          : "No region data available.."}
       </p>
-      {pokemonSpeciesData?.is_legendary ? (
+      {pokemonSpeciesData && pokemonSpeciesData?.is_legendary ? (
         <p className="pokedex__card_legendary">Legendary</p>
       ) : pokemonSpeciesData?.is_mythical ? (
         <p className="pokedex__card_mythical">Mythical</p>
-      ) : pokemonData.name === 'scizor' ? (
+      ) : pokemonData.name === "scizor" ? (
         <p className="pokedex__card_favo">Jorik's favorite</p>
       ) : null}
       <div className="pokedex__card_spriteWrapper">
         <img
           className="pokedex__card_sprite"
           src={
-            pokemonData.sprites?.versions?.['generation-v']?.['black-white']
-              ?.animated.front_default
-              ? pokemonData.sprites?.versions?.['generation-v']?.['black-white']
-                  ?.animated.front_default
-              : pokemonData?.sprites?.versions?.['generation-v']?.[
-                  'black-white'
-                ].front_default
+            pokemonData.sprites?.versions?.["generation-v"]?.["black-white"]
+              ?.animated.front_default ||
+            pokemonData.sprites?.front_default ||
+            pokemonData.sprites?.other?.home?.front_default
           }
           alt={pokemonData.name}
         />
       </div>
       <h3 className="pokedex__card_name">{pokemonData.name}</h3>
       <div className="pokedex__card_genera">
-        <p className="pokedex__card_generaText">
-          {pokemonSpeciesData?.genera[7].genus
-            ? pokemonSpeciesData?.genera[7].genus
-            : 'No genus found yet..'}
+        <p
+          className={`pokedex__card_generaText ${
+            pokemonSpeciesData ? "" : "pokedex__card_generaText_error"
+          }`}
+        >
+          {pokemonSpeciesData &&
+          pokemonSpeciesData.genera &&
+          pokemonSpeciesData.genera[7] &&
+          pokemonSpeciesData.genera[7].genus
+            ? pokemonSpeciesData.genera[7].genus
+            : "No genus available.."}
         </p>
       </div>
-      <p className="pokedex__card_entry">
-        {pokemonSpeciesData?.flavor_text_entries[1].flavor_text}
-      </p>
+      <p className="pokedex__card_entry">{englishFlavorText}</p>
       <ul className="pokedex__card_types">
         {pokemonData.types?.map((pokemonType) => (
           <li
@@ -91,7 +107,9 @@ const PokedexCard = ({
         <div className="pokedex__card_capture">
           <p className="pokedex__card_captureTitle">Capture rate</p>
           <p className="pokedex__card_captureRate">
-            {pokemonSpeciesData?.capture_rate}
+            {pokemonSpeciesData && pokemonSpeciesData?.capture_rate
+              ? pokemonSpeciesData?.capture_rate
+              : "❌ No capture rate data available.."}
           </p>
         </div>
       </div>

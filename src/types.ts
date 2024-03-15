@@ -64,6 +64,11 @@ export type Pokemon = {
   name?: string;
   sprites?: {
     front_default: string;
+    other?: {
+      home?: {
+        front_default: string;
+      };
+    };
     versions?: {
       "generation-v": {
         "black-white": {
