@@ -11,7 +11,7 @@
 
 .pokedex {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   flex-direction: row;
   width: 100%;
@@ -105,5 +105,12 @@
     box-sizing: border-box;
     width: fit-content;
     margin: 1rem 0;
+  }
+
+  &__buttons {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
   }
 }

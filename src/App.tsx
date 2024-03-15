@@ -7,6 +7,7 @@ import { useFetchPokemonSpecies } from "./hooks/useFetchPokemonSpecies";
 import { useFetchAllPokemon } from "./hooks/useFetchAllPokemon";
 // import { useFetchPokemonTypes } from "./hooks/useFetchPokemonTypes";
 import PokedexCard from "./PokedexCard";
+import { navigatePokemon } from "./utils/navigatePokemon";
 
 const App = () => {
   const [selectedPokemonName, setSelectedPokemonName] = useState<
@@ -39,10 +40,27 @@ const App = () => {
     getAllPokemon();
   }, []);
 
+  const handlePreviousPokemon = () => {
+    navigatePokemon(
+      "previous",
+      selectedPokemonName,
+      allPokemon,
+      searchDropdownPokemon
+    );
+  };
+
+  const handleNextPokemon = () => {
+    navigatePokemon(
+      "next",
+      selectedPokemonName,
+      allPokemon,
+      searchDropdownPokemon
+    );
+  };
+
   return (
     <div className="pokedex">
       <div className="pokedex__header">
-        <pre>{JSON.stringify(selectedPokemonName, undefined, 3)}</pre>
         <h2>✨ Looking for a Pokemon?</h2>
         <p>
           Find your Pokemon and check its type, region, if it's Jorik's favorite
@@ -71,6 +89,22 @@ const App = () => {
               </option>
             ))}
           </select>
+          {selectedPokemonName && (
+            <div className="pokedex__buttons">
+              <button
+                onClick={handlePreviousPokemon}
+                disabled={pokemonData?.id === 1}
+              >
+                Previous
+              </button>
+              <button
+                onClick={handleNextPokemon}
+                disabled={pokemonData?.id === 1025}
+              >
+                Next
+              </button>
+            </div>
+          )}
           {/* <button type="button" onClick={searchPokemon}>
             Search
           </button> */}
