@@ -105,10 +105,7 @@ const App = () => {
               </button>
             </div>
           )}
-          {/* <button type="button" onClick={searchPokemon}>
-            Search
-          </button> */}
-          {/* {isLoading && <p>Loading..</p>} */}
+
           {isLoading && (
             <div className="pokedex__loading">
               <img src="public/favicon.svg" alt="Loading..." />
