@@ -49,6 +49,14 @@ const App = () => {
           Find your Pokemon and check its type, region, if it's Jorik's favorite
           and more!
         </p>
+        <div className="pokedex__header_attention">
+          <span>Attention</span>
+          <p>
+            Pokemon names with a suffix (e.g. region, variant or shape) are
+            having trouble recovering all available data. We are looking into
+            it!
+          </p>
+        </div>
         <div className="pokedex__searchWrapper">
           <select
             value={selectedPokemonName}
