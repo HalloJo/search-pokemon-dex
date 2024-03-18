@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import "./styles/App.scss";
-import { getPokemonTypeColor } from "./utils/getTypeColor";
-import { getPokemonRegion } from "./utils/getRegion";
+
 import { useFetchPokemon } from "./hooks/useFetchPokemon";
 import { useFetchAllPokemon } from "./hooks/useFetchAllPokemon";
 import PokedexCard from "./PokedexCard";
@@ -54,14 +53,14 @@ const App = () => {
           Find your Pokemon and check its type, region, if it's Jorik's favorite
           and more!
         </p>
-        <div className="pokedex__header_attention">
+        {/* <div className="pokedex__header_attention">
           <span>Attention</span>
           <p>
             Pokemon names with a suffix (e.g. region, variant or shape) are
             having trouble recovering all available data. We are looking into
             it!
           </p>
-        </div>
+        </div> */}
         <div className="pokedex__searchWrapper">
           <select
             value={selectedPokemonName}
@@ -111,8 +110,6 @@ const App = () => {
         <PokedexCard
           pokemonData={pokemonData}
           pokemonSpeciesData={pokemonSpeciesData}
-          getPokemonRegion={getPokemonRegion}
-          getPokemonTypeColor={getPokemonTypeColor}
         />
       )}
     </div>

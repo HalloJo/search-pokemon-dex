@@ -22,7 +22,6 @@ export const useFetchPokemon = () => {
       .then(
         () => {
           setIsLoading(false);
-          console.log(pokemonSpeciesData);
         },
         () => {
           setError(true);

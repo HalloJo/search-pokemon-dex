@@ -1,21 +1,14 @@
 import { Pokemon, PokemonSpecies } from "./types";
-import { getPokemonRegionProps } from "./utils/getRegion";
-import { getPokemonTypeProps } from "./utils/getTypeColor";
+import { getPokemonRegionProps, getPokemonRegion } from "./utils/getRegion";
+import { getPokemonTypeProps, getPokemonTypeColor } from "./utils/getTypeColor";
 import "./styles/PokedexCard.scss";
 
 type PokedexCardProps = {
   pokemonData: Pokemon;
   pokemonSpeciesData: PokemonSpecies;
-  getPokemonRegion: getPokemonRegionProps;
-  getPokemonTypeColor: getPokemonTypeProps;
 };
 
-const PokedexCard = ({
-  pokemonData,
-  pokemonSpeciesData,
-  getPokemonRegion,
-  getPokemonTypeColor,
-}: PokedexCardProps) => {
+const PokedexCard = ({ pokemonData, pokemonSpeciesData }: PokedexCardProps) => {
   const englishFlavorTextEntry = pokemonSpeciesData.flavor_text_entries?.find(
     (entry) => entry?.language?.name === "en"
   );
