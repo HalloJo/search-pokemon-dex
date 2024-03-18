@@ -15,6 +15,14 @@ export type PokemonType = {
   };
 };
 
+export type PokemonVariety = {
+  is_default: boolean;
+  pokemon: {
+    name: string;
+    url: string;
+  };
+};
+
 export type PokemonSpecies = {
   generation: {
     name: string;
@@ -24,6 +32,7 @@ export type PokemonSpecies = {
   is_legendary?: boolean;
   flavor_text_entries: PokemonEntry[];
   genera: PokemonGenera[];
+  varieties: PokemonVariety[];
 };
 
 export type PokemonGenera = {

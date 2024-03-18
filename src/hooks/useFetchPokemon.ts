@@ -30,5 +30,11 @@ export const useFetchPokemon = () => {
       );
   };
 
-  return { isLoading, error, pokemonData, pokemonSpeciesData, getPokemon };
+  return {
+    isLoading,
+    error,
+    pokemonData,
+    pokemonSpeciesData,
+    getPokemon,
+  };
 };

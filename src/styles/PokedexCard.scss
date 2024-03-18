@@ -143,7 +143,8 @@
     justify-content: center;
   }
 
-  &_abilitiesList {
+  &_abilitiesList,
+  &_variatyList {
     list-style-type: none;
     padding: 0;
     margin: 0;
@@ -158,6 +159,17 @@
       text-transform: uppercase;
       font-size: 0.6rem;
       background-color: rgb(37, 37, 37);
+    }
+  }
+
+  &_variatyEntry {
+    &_default {
+      &::before {
+        content: "Default:";
+        font-weight: bold;
+        color: rgb(116, 116, 116);
+        margin: 0 0.25rem 0 0;
+      }
     }
   }
 
@@ -195,7 +207,8 @@
   &_abilitiesTitle,
   &_statsTitle,
   &_cryTitle,
-  &_captureTitle {
+  &_captureTitle,
+  &_variatyTitle {
     margin: 0 0 0.2rem 0;
     font-size: 0.7rem;
     color: var(--color-light-gray);
@@ -207,7 +220,8 @@
   }
 
   &_cry,
-  &_capture {
+  &_capture,
+  &_variaty {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -221,7 +235,8 @@
   }
 
   &_cryButton,
-  &_captureRate {
+  &_captureRate,
+  &_variatyButton {
     padding: 0.1rem 0.3rem;
     display: flex;
     border-radius: 3px;

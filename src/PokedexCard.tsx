@@ -119,6 +119,26 @@ const PokedexCard = ({ pokemonData, pokemonSpeciesData }: PokedexCardProps) => {
               : "❌ No capture rate data available.."}
           </p>
         </div>
+        {pokemonSpeciesData.varieties.length > 1 && (
+          <div className="pokedex__card_variaty">
+            <p className="pokedex__card_variatyTitle">Forms</p>
+
+            <ul className="pokedex__card_variatyList">
+              {pokemonSpeciesData.varieties?.map((pokemonVariaty) => (
+                <li
+                  className={`pokedex__card_variatyEntry ${
+                    pokemonVariaty.is_default
+                      ? "pokedex__card_variatyEntry_default"
+                      : ""
+                  }`}
+                  key={pokemonVariaty.pokemon.name}
+                >
+                  {pokemonVariaty.pokemon.name}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
     </div>
   );
