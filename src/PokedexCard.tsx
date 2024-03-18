@@ -1,7 +1,8 @@
 import { Pokemon, PokemonSpecies } from "./types";
-import { getPokemonRegionProps, getPokemonRegion } from "./utils/getRegion";
-import { getPokemonTypeProps, getPokemonTypeColor } from "./utils/getTypeColor";
+import { getPokemonRegion } from "./utils/getRegion";
+import { getPokemonTypeColor } from "./utils/getTypeColor";
 import "./styles/PokedexCard.scss";
+import { formatFlavorText } from "./utils/formatText";
 
 type PokedexCardProps = {
   pokemonData: Pokemon;
@@ -13,8 +14,20 @@ const PokedexCard = ({ pokemonData, pokemonSpeciesData }: PokedexCardProps) => {
     (entry) => entry?.language?.name === "en"
   );
 
-  const englishFlavorText =
-    englishFlavorTextEntry?.flavor_text || "❌ No flavor text available..";
+  const englishFlavorText = formatFlavorText(
+    englishFlavorTextEntry?.flavor_text || "❌ No flavor text available.."
+  );
+
+  const englishGenusTextEntry = pokemonSpeciesData.genera?.find(
+    (entry) => entry?.language?.name === "en"
+  );
+  const englishGenusText =
+    englishGenusTextEntry?.genus || "❌ No genus available..";
+
+  const handlePlaySound = () => {
+    const audio = new Audio(pokemonData.cries?.latest);
+    audio.play();
+  };
 
   return (
     <div className="pokedex__card">
@@ -54,12 +67,7 @@ const PokedexCard = ({ pokemonData, pokemonSpeciesData }: PokedexCardProps) => {
             pokemonData.species ? "" : "pokedex__card_generaText_error"
           }`}
         >
-          {pokemonData.species &&
-          pokemonSpeciesData.genera &&
-          pokemonSpeciesData.genera[7] &&
-          pokemonSpeciesData.genera[7].genus
-            ? pokemonSpeciesData.genera[7].genus
-            : "No genus available.."}
+          {englishGenusText}
         </p>
       </div>
       <p className="pokedex__card_entry">{englishFlavorText}</p>
@@ -96,6 +104,12 @@ const PokedexCard = ({ pokemonData, pokemonSpeciesData }: PokedexCardProps) => {
               </li>
             ))}
           </ul>
+        </div>
+        <div className="pokedex__card_cry">
+          <p className="pokedex__card_cryTitle">Cry</p>
+          <button className="pokedex__card_cryButton" onClick={handlePlaySound}>
+            Play
+          </button>
         </div>
         <div className="pokedex__card_capture">
           <p className="pokedex__card_captureTitle">Capture rate</p>

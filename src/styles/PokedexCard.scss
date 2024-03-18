@@ -15,7 +15,7 @@
     right: 1rem;
     top: 1rem;
     font-weight: 700;
-    color: rgb(26, 26, 26);
+    color: rgb(58, 58, 58);
     font-size: 3rem;
     line-height: 0.8;
     z-index: 0;
@@ -194,6 +194,7 @@
 
   &_abilitiesTitle,
   &_statsTitle,
+  &_cryTitle,
   &_captureTitle {
     margin: 0 0 0.2rem 0;
     font-size: 0.7rem;
@@ -205,12 +206,21 @@
     color: var(--color-light-gray);
   }
 
+  &_cry,
   &_capture {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
   }
 
+  &_cryButton {
+    &::before {
+      content: "▶️";
+      margin: 0 0.25rem 0 0;
+    }
+  }
+
+  &_cryButton,
   &_captureRate {
     padding: 0.1rem 0.3rem;
     display: flex;

@@ -59,6 +59,10 @@ export type PokemonStat = {
   };
 };
 
+export type PokemonCry = {
+  latest: string;
+};
+
 export type Pokemon = {
   id?: number;
   name?: string;
@@ -84,4 +88,5 @@ export type Pokemon = {
   stats?: PokemonStat[];
   abilities?: PokemonAbility[];
   types?: PokemonType[];
+  cries?: PokemonCry;
 };
