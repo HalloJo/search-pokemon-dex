@@ -1,9 +1,11 @@
 import { useState } from "react";
-import { Pokemon } from "../types";
+import { Pokemon, PokemonSpecies } from "../types";
 import { fetchPokemon } from "../api/fetchPokemon";
 
 export const useFetchPokemon = () => {
   const [pokemonData, setPokemonData] = useState<Pokemon>();
+  const [pokemonSpeciesData, setPokemonSpeciesData] =
+    useState<PokemonSpecies>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
 
@@ -12,10 +14,15 @@ export const useFetchPokemon = () => {
     setError(false);
 
     fetchPokemon(pokemonName)
-      .then(setPokemonData)
+      .then((data) => {
+        setPokemonData(data.pokemonData),
+          setPokemonSpeciesData(data.pokemonSpeciesData);
+      })
+
       .then(
         () => {
           setIsLoading(false);
+          console.log(pokemonSpeciesData);
         },
         () => {
           setError(true);
@@ -24,5 +31,5 @@ export const useFetchPokemon = () => {
       );
   };
 
-  return { isLoading, error, pokemonData, getPokemon };
+  return { isLoading, error, pokemonData, pokemonSpeciesData, getPokemon };
 };

@@ -3,9 +3,7 @@ import "./styles/App.scss";
 import { getPokemonTypeColor } from "./utils/getTypeColor";
 import { getPokemonRegion } from "./utils/getRegion";
 import { useFetchPokemon } from "./hooks/useFetchPokemon";
-import { useFetchPokemonSpecies } from "./hooks/useFetchPokemonSpecies";
 import { useFetchAllPokemon } from "./hooks/useFetchAllPokemon";
-// import { useFetchPokemonTypes } from "./hooks/useFetchPokemonTypes";
 import PokedexCard from "./PokedexCard";
 import { navigatePokemon } from "./utils/navigatePokemon";
 
@@ -13,27 +11,17 @@ const App = () => {
   const [selectedPokemonName, setSelectedPokemonName] = useState<
     string | undefined
   >("");
-  const { isLoading, pokemonData, error, getPokemon } = useFetchPokemon();
-  const { pokemonSpeciesData, getPokemonSpecies } = useFetchPokemonSpecies();
-  // const { pokemonTypesData, getPokemonTypes } = useFetchPokemonTypes();
+  const { isLoading, pokemonData, pokemonSpeciesData, error, getPokemon } =
+    useFetchPokemon();
   const { allPokemon, getAllPokemon } = useFetchAllPokemon();
 
   const searchDropdownPokemon = useCallback(
     (pokemon: string) => {
       getPokemon(pokemon);
 
-      getPokemonSpecies(pokemon);
       setSelectedPokemonName(pokemon);
-
-      // console.log(pokemonData);
     },
-    [
-      getPokemon,
-      getPokemonSpecies,
-      // getPokemonTypes,
-      // pokemonData?.id,
-      // selectedPokemonId,
-    ]
+    [getPokemon]
   );
 
   useEffect(() => {
@@ -119,11 +107,11 @@ const App = () => {
         </div>
       </div>
 
-      {pokemonData && (
+      {pokemonData && pokemonSpeciesData && (
         <PokedexCard
           pokemonData={pokemonData}
-          getPokemonRegion={getPokemonRegion}
           pokemonSpeciesData={pokemonSpeciesData}
+          getPokemonRegion={getPokemonRegion}
           getPokemonTypeColor={getPokemonTypeColor}
         />
       )}

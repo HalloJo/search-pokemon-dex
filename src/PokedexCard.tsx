@@ -5,18 +5,18 @@ import "./styles/PokedexCard.scss";
 
 type PokedexCardProps = {
   pokemonData: Pokemon;
+  pokemonSpeciesData: PokemonSpecies;
   getPokemonRegion: getPokemonRegionProps;
-  pokemonSpeciesData: PokemonSpecies | undefined;
   getPokemonTypeColor: getPokemonTypeProps;
 };
 
 const PokedexCard = ({
   pokemonData,
-  getPokemonRegion,
   pokemonSpeciesData,
+  getPokemonRegion,
   getPokemonTypeColor,
 }: PokedexCardProps) => {
-  const englishFlavorTextEntry = pokemonSpeciesData?.flavor_text_entries.find(
+  const englishFlavorTextEntry = pokemonSpeciesData.flavor_text_entries?.find(
     (entry) => entry?.language?.name === "en"
   );
 
@@ -28,16 +28,16 @@ const PokedexCard = ({
       <p className="pokedex__card_number">#{pokemonData.id}</p>
       <p
         className={`pokedex__card_region ${
-          pokemonSpeciesData ? "" : "pokedex__card_region_error"
+          pokemonSpeciesData.generation ? "" : "pokedex__card_region_error"
         }`}
       >
-        {pokemonSpeciesData && pokemonSpeciesData?.generation.name
-          ? getPokemonRegion(pokemonSpeciesData?.generation.name)
+        {pokemonSpeciesData.generation && pokemonSpeciesData.generation.name
+          ? getPokemonRegion(pokemonSpeciesData.generation.name)
           : "No region data available.."}
       </p>
-      {pokemonSpeciesData && pokemonSpeciesData?.is_legendary ? (
+      {pokemonData.species && pokemonSpeciesData.is_legendary ? (
         <p className="pokedex__card_legendary">Legendary</p>
-      ) : pokemonSpeciesData?.is_mythical ? (
+      ) : pokemonSpeciesData.is_mythical ? (
         <p className="pokedex__card_mythical">Mythical</p>
       ) : pokemonData.name === "scizor" ? (
         <p className="pokedex__card_favo">Jorik's favorite</p>
@@ -58,10 +58,10 @@ const PokedexCard = ({
       <div className="pokedex__card_genera">
         <p
           className={`pokedex__card_generaText ${
-            pokemonSpeciesData ? "" : "pokedex__card_generaText_error"
+            pokemonData.species ? "" : "pokedex__card_generaText_error"
           }`}
         >
-          {pokemonSpeciesData &&
+          {pokemonData.species &&
           pokemonSpeciesData.genera &&
           pokemonSpeciesData.genera[7] &&
           pokemonSpeciesData.genera[7].genus
@@ -107,8 +107,8 @@ const PokedexCard = ({
         <div className="pokedex__card_capture">
           <p className="pokedex__card_captureTitle">Capture rate</p>
           <p className="pokedex__card_captureRate">
-            {pokemonSpeciesData && pokemonSpeciesData?.capture_rate
-              ? pokemonSpeciesData?.capture_rate
+            {pokemonSpeciesData && pokemonSpeciesData.capture_rate
+              ? pokemonSpeciesData.capture_rate
               : "❌ No capture rate data available.."}
           </p>
         </div>

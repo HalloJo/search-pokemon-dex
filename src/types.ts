@@ -80,6 +80,7 @@ export type Pokemon = {
       };
     };
   };
+  species?: PokemonSpecies;
   stats?: PokemonStat[];
   abilities?: PokemonAbility[];
   types?: PokemonType[];
