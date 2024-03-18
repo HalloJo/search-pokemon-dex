@@ -95,7 +95,7 @@ const App = () => {
 
           {isLoading && (
             <div className="pokedex__loading">
-              <img src="public/favicon.svg" alt="Loading..." />
+              <img src="/favicon.svg" alt="Loading..." />
             </div>
           )}
           {error && (
