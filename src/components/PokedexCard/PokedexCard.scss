@@ -1,4 +1,4 @@
-@use "../styles/mixins/_mixins.scss" as mixins;
+@use "../../styles/mixins/_mixins.scss" as mixins;
 
 .pokedex__card {
   background-color: rgb(0, 0, 0);
@@ -8,6 +8,13 @@
   width: 300px;
   position: relative;
   padding: 1rem;
+
+  @media (max-width: 768px) {
+    aspect-ratio: unset;
+    min-width: auto;
+    width: auto;
+    box-sizing: border-box;
+  }
 
   &_number {
     position: absolute;
@@ -245,5 +252,25 @@
     gap: 0.2rem;
     background-color: rgb(37, 37, 37);
     margin: 0;
+  }
+
+  &_checkbox {
+    background-color: black;
+    border-radius: 8px;
+    font-size: 0.7rem;
+    padding: 0.5rem;
+    font-weight: 700;
+    border: 1px solid rgb(37, 37, 37);
+    display: flex;
+    align-items: center;
+    width: fit-content;
+
+    &.caught {
+      background: linear-gradient(
+        90deg,
+        rgb(7, 88, 2) 0%,
+        rgb(92, 219, 118) 100%
+      );
+    }
   }
 }

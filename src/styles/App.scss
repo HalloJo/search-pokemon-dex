@@ -107,6 +107,15 @@
     margin: 1rem 0;
   }
 
+  &__caught {
+    background-color: #1a1a1a;
+    padding: 0.6em 1.2em;
+    border-radius: 8px;
+    box-sizing: border-box;
+    width: 100%;
+    margin: 1rem 0;
+  }
+
   &__buttons {
     width: 100%;
     display: flex;

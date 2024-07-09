@@ -3,16 +3,28 @@ import "./styles/App.scss";
 
 import { useFetchPokemon } from "./hooks/useFetchPokemon";
 import { useFetchAllPokemon } from "./hooks/useFetchAllPokemon";
-import PokedexCard from "./PokedexCard";
+import PokedexCard from "./components/PokedexCard/PokedexCard";
 import { navigatePokemon } from "./utils/navigatePokemon";
 
 const App = () => {
   const [selectedPokemonName, setSelectedPokemonName] = useState<
     string | undefined
   >("");
+  const [caughtPokemon, setCaughtPokemon] = useState<{
+    [key: number]: boolean;
+  }>({});
+
   const { isLoading, pokemonData, pokemonSpeciesData, error, getPokemon } =
     useFetchPokemon();
   const { allPokemon, getAllPokemon } = useFetchAllPokemon();
+
+  useEffect(() => {
+    getAllPokemon();
+
+    const savedData = localStorage.getItem("caughtPokemon");
+    const savedCaughtPokemon = savedData ? JSON.parse(savedData) : {};
+    setCaughtPokemon(savedCaughtPokemon);
+  }, []);
 
   const searchDropdownPokemon = useCallback(
     (pokemon: string) => {
@@ -22,10 +34,6 @@ const App = () => {
     },
     [getPokemon]
   );
-
-  useEffect(() => {
-    getAllPokemon();
-  }, []);
 
   const handlePreviousPokemon = () => {
     navigatePokemon(
@@ -45,6 +53,20 @@ const App = () => {
     );
   };
 
+  const handleCheckboxChange = (id: number) => {
+    setCaughtPokemon((prevCaught) => {
+      const updatedCaught = { ...prevCaught, [id]: !prevCaught[id] };
+
+      localStorage.setItem("caughtPokemon", JSON.stringify(updatedCaught));
+
+      return updatedCaught;
+    });
+  };
+
+  const caughtCount = Object.values(caughtPokemon).filter(
+    (caught) => caught
+  ).length;
+
   return (
     <div className="pokedex">
       <div className="pokedex__header">
@@ -53,14 +75,6 @@ const App = () => {
           Find your Pokemon and check its type, region, if it's Jorik's favorite
           and more!
         </p>
-        {/* <div className="pokedex__header_attention">
-          <span>Attention</span>
-          <p>
-            Pokemon names with a suffix (e.g. region, variant or shape) are
-            having trouble recovering all available data. We are looking into
-            it!
-          </p>
-        </div> */}
         <div className="pokedex__searchWrapper">
           <select
             value={selectedPokemonName}
@@ -104,12 +118,15 @@ const App = () => {
             </div>
           )}
         </div>
+        <p className="pokedex__caught">Total Caught: {caughtCount}</p>
       </div>
 
       {pokemonData && pokemonSpeciesData && (
         <PokedexCard
           pokemonData={pokemonData}
           pokemonSpeciesData={pokemonSpeciesData}
+          caught={caughtPokemon[pokemonData.id] || false}
+          onCheckboxChange={handleCheckboxChange}
         />
       )}
     </div>

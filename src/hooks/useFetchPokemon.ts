@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Pokemon, PokemonSpecies } from "../types";
+import { Pokemon, PokemonSpecies } from "../types/types";
 import { fetchPokemon } from "../api/fetchPokemon";
 
 export const useFetchPokemon = () => {
@@ -15,19 +15,20 @@ export const useFetchPokemon = () => {
 
     fetchPokemon(pokemonName)
       .then((data) => {
-        setPokemonData(data.pokemonData),
-          setPokemonSpeciesData(data.pokemonSpeciesData);
+        setPokemonData((previousData) => ({
+          ...previousData,
+          ...data.pokemonData,
+        }));
+        setPokemonSpeciesData((previousSpeciesData) => ({
+          ...previousSpeciesData,
+          ...data.pokemonSpeciesData,
+        }));
+        setIsLoading(false);
       })
-
-      .then(
-        () => {
-          setIsLoading(false);
-        },
-        () => {
-          setError(true);
-          setIsLoading(false);
-        }
-      );
+      .catch(() => {
+        setError(true);
+        setIsLoading(false);
+      });
   };
 
   return {

@@ -1,15 +1,24 @@
-import { Pokemon, PokemonSpecies } from "./types";
-import { getPokemonRegion } from "./utils/getRegion";
-import { getPokemonTypeColor } from "./utils/getTypeColor";
-import "./styles/PokedexCard.scss";
-import { formatFlavorText } from "./utils/formatText";
+import { Pokemon, PokemonSpecies } from "../../types/types";
+import { getPokemonRegion } from "../../utils/getRegion";
+import { getPokemonTypeColor } from "../../utils/getTypeColor";
+import "./PokedexCard.scss";
+import { formatFlavorText } from "../../utils/formatText";
+import { getPokemonImageUrl } from "../../utils/getPokemonImageUrl";
+import { handlePlaySound } from "../../utils/handlePlaySound";
 
 type PokedexCardProps = {
   pokemonData: Pokemon;
   pokemonSpeciesData: PokemonSpecies;
+  caught: boolean;
+  onCheckboxChange: (id: number) => void;
 };
 
-const PokedexCard = ({ pokemonData, pokemonSpeciesData }: PokedexCardProps) => {
+const PokedexCard = ({
+  pokemonData,
+  pokemonSpeciesData,
+  caught,
+  onCheckboxChange,
+}: PokedexCardProps) => {
   const englishFlavorTextEntry = pokemonSpeciesData.flavor_text_entries?.find(
     (entry) => entry?.language?.name === "en"
   );
@@ -24,10 +33,11 @@ const PokedexCard = ({ pokemonData, pokemonSpeciesData }: PokedexCardProps) => {
   const englishGenusText =
     englishGenusTextEntry?.genus || "❌ No genus available..";
 
-  const handlePlaySound = () => {
-    const audio = new Audio(pokemonData.cries?.latest);
-    audio.play();
+  const handlePlaySoundClick = () => {
+    handlePlaySound(pokemonData);
   };
+
+  const imageUrl = getPokemonImageUrl(pokemonData.sprites);
 
   return (
     <div className="pokedex__card">
@@ -49,16 +59,15 @@ const PokedexCard = ({ pokemonData, pokemonSpeciesData }: PokedexCardProps) => {
         <p className="pokedex__card_favo">Jorik's favorite</p>
       ) : null}
       <div className="pokedex__card_spriteWrapper">
-        <img
-          className="pokedex__card_sprite"
-          src={
-            pokemonData.sprites?.versions?.["generation-v"]?.["black-white"]
-              ?.animated.front_default ||
-            pokemonData.sprites?.front_default ||
-            pokemonData.sprites?.other?.home?.front_default
-          }
-          alt={pokemonData.name}
-        />
+        {imageUrl ? (
+          <img
+            className="pokedex__card_sprite"
+            src={imageUrl}
+            alt={pokemonData.name}
+          />
+        ) : (
+          "❌ No img yet.."
+        )}
       </div>
       <h3 className="pokedex__card_name">{pokemonData.name}</h3>
       <div className="pokedex__card_genera">
@@ -107,7 +116,10 @@ const PokedexCard = ({ pokemonData, pokemonSpeciesData }: PokedexCardProps) => {
         </div>
         <div className="pokedex__card_cry">
           <p className="pokedex__card_cryTitle">Cry</p>
-          <button className="pokedex__card_cryButton" onClick={handlePlaySound}>
+          <button
+            className="pokedex__card_cryButton"
+            onClick={handlePlaySoundClick}
+          >
             Play
           </button>
         </div>
@@ -139,6 +151,14 @@ const PokedexCard = ({ pokemonData, pokemonSpeciesData }: PokedexCardProps) => {
             </ul>
           </div>
         )}
+        <div className={`pokedex__card_checkbox ${caught && "caught"}`}>
+          <input
+            type="checkbox"
+            checked={caught}
+            onChange={() => onCheckboxChange(pokemonData.id)}
+          />
+          <label>Caught</label>
+        </div>
       </div>
     </div>
   );

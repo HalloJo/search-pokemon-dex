@@ -73,29 +73,31 @@ export type PokemonCry = {
 };
 
 export type Pokemon = {
-  id?: number;
-  name?: string;
-  sprites?: {
-    front_default: string;
-    other?: {
-      home?: {
-        front_default: string;
-      };
-    };
-    versions?: {
-      "generation-v": {
-        "black-white": {
-          animated: {
-            front_default: string;
-          };
-          front_default: string;
-        };
-      };
-    };
-  };
+  id: number;
+  name: string;
+  sprites?: PokemonSprites;
   species?: PokemonSpecies;
   stats?: PokemonStat[];
   abilities?: PokemonAbility[];
   types?: PokemonType[];
   cries?: PokemonCry;
+};
+
+export type PokemonSprites = {
+  front_default: string;
+  other?: {
+    home?: {
+      front_default: string;
+    };
+  };
+  versions?: {
+    "generation-v": {
+      "black-white": {
+        animated: {
+          front_default: string;
+        };
+        front_default: string;
+      };
+    };
+  };
 };

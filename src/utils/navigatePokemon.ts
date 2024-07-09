@@ -1,4 +1,4 @@
-import { AllPokemon } from "../types";
+import { AllPokemon } from "../types/types";
 
 export const navigatePokemon = (
   direction: "previous" | "next",
